@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>25 ans — MBA Construction SA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --yellow: #fdd900;
+    --yellow-dark: #e0c200;
+    --white: #ffffff;
+    --grey-100: #f7f7f7;
+    --grey-200: #e8e8e8;
+    --grey-400: #999999;
+    --grey-600: #636363;
+    --grey-800: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: var(--grey-800);
+    background: var(--white);
+  }
+
+  /* ── HERO + RSVP (first screen) ── */
+  .hero {
+    background: var(--black);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 50% 60%, rgba(253,217,0,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    max-width: 280px;
+    width: 70%;
+    height: auto;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-anniversary {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--grey-400);
+    letter-spacing: 7px;
+    text-transform: uppercase;
+  }
+
+  .hero-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0;
+  }
+
+  .hero-number .line {
+    width: 50px;
+    height: 1px;
+    background: var(--yellow);
+  }
+
+  .hero-number span.num {
+    font-size: 88px;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .hero-years {
+    font-size: 12px;
+    color: var(--grey-400);
+    letter-spacing: 5px;
+    margin-top: 6px;
+  }
+
+  .hero-tagline {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 36px;
+    max-width: 460px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-tagline strong {
+    font-weight: 700;
+    color: var(--yellow);
+  }
+
+  /* ── RSVP FORM (inside hero) ── */
+  .rsvp-form {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .presence-options {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .presence-option {
+    width: 180px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .presence-option input { display: none; }
+  .presence-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    padding: 20px 16px;
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--grey-400);
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .presence-option label:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.03);
+  }
+  .presence-option input:checked + label {
+    border-color: var(--yellow);
+    background: rgba(253,217,0,0.08);
+    color: var(--white);
+  }
+  .presence-option label .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .form-fields {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .form-fields.visible { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .field-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field-row .field { flex: 1; margin-bottom: 0; }
+
+  .field { margin-bottom: 16px; text-align: left; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    color: var(--grey-400);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .field input, .field select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--white);
+    background: rgba(255,255,255,0.05);
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field input:focus, .field select:focus {
+    outline: none;
+    border-color: var(--yellow);
+  }
+  .field input::placeholder { color: rgba(255,255,255,0.25); }
+  .field select {
+    color: var(--white);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fdd900' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-color: rgba(255,255,255,0.05);
+    padding-right: 40px;
+  }
+  .field select option { background: var(--black); color: var(--white); }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--yellow);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 12px;
+  }
+  .submit-btn:hover {
+    background: var(--yellow-dark);
+    transform: translateY(-1px);
+  }
+  .submit-btn:disabled {
+    background: rgba(255,255,255,0.1);
+    color: var(--grey-400);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .rsvp-deadline {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--grey-400);
+  }
+  .rsvp-deadline strong { color: var(--white); font-weight: 600; }
+
+  /* Messages */
+  .message {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+    animation: fadeIn 0.5s ease;
+  }
+  .message .msg-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+  .message h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .message p {
+    font-size: 16px;
+    color: var(--grey-400);
+    line-height: 1.7;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    animation: bounce 2s infinite;
+  }
+  .scroll-indicator svg { width: 24px; height: 24px; stroke: var(--grey-400); }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section.content-section { padding: 100px 24px; }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--grey-800);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .section-divider {
+    width: 50px;
+    height: 3px;
+    background: var(--yellow);
+    margin-bottom: 28px;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    background: var(--white);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about p.body-text {
+    font-size: 17px;
+    color: var(--grey-600);
+    line-height: 1.8;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ── EVENT ── */
+  .event {
+    background: var(--grey-100);
+  }
+
+  .event-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+  }
+
+  .event-left { flex: 1; }
+
+  .event-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  .event-item {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--grey-200);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .event-item:last-child { border-bottom: none; }
+
+  .event-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--yellow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .event-icon svg { width: 20px; height: 20px; fill: var(--black); }
+
+  .event-item .label {
+    font-size: 11px;
+    color: var(--grey-400);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+  }
+  .event-item .value {
+    font-size: 17px;
+    color: var(--grey-800);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .event-item .sub-value {
+    font-size: 14px;
+    color: var(--grey-600);
+    margin-top: 2px;
+  }
+  .event-item a.map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--grey-800);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .event-item a.map-link:hover { color: var(--yellow-dark); }
+  .event-item a.map-link svg { width: 14px; height: 14px; stroke: var(--yellow); fill: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    padding: 40px 24px;
+  }
+  footer img { max-width: 28px; height: auto; margin-bottom: 12px; opacity: 0.5; }
+  footer p { font-size: 12px; color: var(--grey-400); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero-number span.num { font-size: 72px; }
+    .section-title { font-size: 28px; }
+    .event-inner { flex-direction: column; gap: 40px; }
+    .event-left, .event-right { flex: none; width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    section.content-section { padding: 72px 20px; }
+    .hero { padding: 36px 20px; }
+    .hero-logo { margin-bottom: 24px; }
+    .hero-number span.num { font-size: 56px; }
+    .hero-number .line { width: 32px; }
+    .hero-sub { font-size: 11px; letter-spacing: 5px; }
+    .hero-tagline { font-size: 15px; margin-bottom: 28px; }
+    .section-title { font-size: 24px; }
+    .presence-options { flex-direction: column; align-items: center; }
+    .presence-option { width: 240px; }
+    .presence-option label { height: 100px; }
+    .field-row { flex-direction: column; gap: 0; }
+    .field-row .field { flex: none; margin-bottom: 16px; }
+    .event-item { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO + RSVP ═══════════ -->
+<section class="hero">
+  <img class="hero-logo" src="https://i.ibb.co/PGKTkBkb/logo-mba-construction-email.png" alt="MBA Construction SA">
+
+  <div class="hero-anniversary">
+    <p class="hero-sub">Fete ses</p>
+    <div class="hero-number">
+      <span class="line"></span>
+      <span class="num">25</span>
+      <span class="line"></span>
+    </div>
+    <p class="hero-sub">Ans</p>
+    <p class="hero-years">2001 &mdash; 2026</p>
+  </div>
+
+  <p class="hero-tagline">
+    Nous avons le plaisir de vous convier a celebrer avec nous
+    <strong>25 annees de passion</strong> pour la construction
+  </p>
+
+  <!-- RSVP Form -->
+  <div class="rsvp-form" id="formContainer">
+
+    <div class="presence-options">
+      <div class="presence-option">
+        <input type="radio" name="presence" id="present" value="present">
+        <label for="present">
+          <span class="icon">&#10003;</span>
+          Je serai present
+        </label>
+      </div>
+      <div class="presence-option">
+        <input type="radio" name="presence" id="absent" value="absent">
+        <label for="absent">
+          <span class="icon">&#10007;</span>
+          Je ne pourrai pas<br>etre present
+        </label>
+      </div>
+    </div>
+
+    <!-- Present fields -->
+    <div class="form-fields" id="fieldsPresent">
+      <div class="field-row">
+        <div class="field">
+          <label for="prenom">Prenom</label>
+          <input type="text" id="prenom" placeholder="Jean">
+        </div>
+        <div class="field">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" placeholder="Dupont">
+        </div>
+      </div>
+      <div class="field">
+        <label for="entreprise">Entreprise</label>
+        <input type="text" id="entreprise" placeholder="Nom de votre entreprise">
+      </div>
+      <div class="field">
+        <label for="nombre">Nombre de personnes</label>
+        <select id="nombre">
+          <option value="1">1 personne</option>
+          <option value="2">2 personnes</option>
+          <option value="3">3 personnes</option>
+          <option value="4">4 personnes</option>
+          <option value="5">5 personnes</option>
+          <option value="6">6 personnes</option>
+          <option value="7">7 personnes</option>
+          <option value="8">8 personnes</option>
+          <option value="9">9 personnes</option>
+          <option value="10">10 personnes</option>
+        </select>
+      </div>
+      <button type="button" class="submit-btn" id="btnSubmitPresent">Envoyer</button>
+    </div>
+
+    <!-- Absent fields -->
+    <div class="form-fields" id="fieldsAbsent">
+      <div class="field-row">
+        <div class="field">
+          <label for="prenomAbs">Prenom</label>
+          <input type="text" id="prenomAbs" placeholder="Jean">
+        </div>
+        <div class="field">
+          <label for="nomAbs">Nom</label>
+          <input type="text" id="nomAbs" placeholder="Dupont">
+        </div>
+      </div>
+      <div class="field">
+        <label for="entrepriseAbs">Entreprise</label>
+        <input type="text" id="entrepriseAbs" placeholder="Nom de votre entreprise">
+      </div>
+      <button type="button" class="submit-btn" id="btnSubmitAbsent">Envoyer</button>
+    </div>
+
+    <p class="rsvp-deadline">Merci de confirmer avant le <strong>16 mai 2026</strong></p>
+  </div>
+
+  <!-- Success -->
+  <div class="message" id="msgSuccess">
+    <div class="msg-icon">&#127881;</div>
+    <h3>Merci pour votre confirmation !</h3>
+    <p>Nous avons bien enregistre votre inscription.<br>Nous nous rejouissons de vous accueillir le 30 mai 2026.</p>
+  </div>
+
+  <!-- Decline -->
+  <div class="message" id="msgDecline">
+    <div class="msg-icon">&#128172;</div>
+    <h3>Merci pour votre reponse</h3>
+    <p>Nous sommes desoles de ne pas pouvoir vous compter parmi nous.<br>Nous esperons vous revoir tres bientot.</p>
+  </div>
+
+  <div class="scroll-indicator">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section class="about content-section">
+  <p class="section-tag">L'evenement</p>
+  <h2 class="section-title">25 ans de savoir-faire<br>et d'exigence</h2>
+  <div class="section-divider" style="margin-left:auto;margin-right:auto;"></div>
+  <p class="body-text">
+    Entreprise familiale depuis 2001, MBA Construction SA met son savoir-faire et son exigence de qualite au service de chaque projet. Pour celebrer ce quart de siecle, nous vous invitons a une journee exceptionnelle placee sous le signe de la convivialite et du partage.
+  </p>
+</section>
+
+<!-- ═══════════ EVENT ═══════════ -->
+<section class="event content-section">
+  <div class="event-inner">
+    <div class="event-left">
+      <p class="section-tag">Informations pratiques</p>
+      <h2 class="section-title">Rejoignez-nous</h2>
+      <div class="section-divider"></div>
+      <p style="font-size:15px;color:var(--grey-600);line-height:1.8;">
+        Nous serions honores de votre presence pour cette journee de festivites. Au programme : moments de partage, convivialite et celebration.
+      </p>
+    </div>
+    <div class="event-right">
+      <div class="event-card">
+
+        <div class="event-item">
+          <div class="event-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+          </div>
+          <div>
+            <p class="label">Date</p>
+            <p class="value">Samedi 30 mai 2026</p>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-icon">
+            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          </div>
+          <div>
+            <p class="label">Horaire</p>
+            <p class="value">De 10h30 a 03h00</p>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <div>
+            <p class="label">Lieu</p>
+            <p class="value">La Grange Rouge</p>
+            <p class="sub-value">Ferme la Zouillaz, 1920 Martigny</p>
+            <a class="map-link" href="https://maps.app.goo.gl/fwB2HT7BDLJoc9gS7?g_st=ic" target="_blank">
+              Google Maps
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <img src="https://i.ibb.co/PZQrhGWR/icon-mba-groupe-email.png" alt="MBA Groupe SA">
+  <p>Membre de MBA Groupe SA &mdash; &copy; 2026</p>
+</footer>
+
+<script>
+(function() {
+  var fieldsPresent = document.getElementById('fieldsPresent');
+  var fieldsAbsent = document.getElementById('fieldsAbsent');
+  var formContainer = document.getElementById('formContainer');
+  var msgSuccess = document.getElementById('msgSuccess');
+  var msgDecline = document.getElementById('msgDecline');
+
+  // TODO: Remplacer par l'URL du webhook Make
+  var WEBHOOK_URL = 'VOTRE_WEBHOOK_MAKE_URL';
+
+  document.getElementById('present').addEventListener('change', function() {
+    fieldsPresent.classList.add('visible');
+    fieldsAbsent.classList.remove('visible');
+  });
+
+  document.getElementById('absent').addEventListener('change', function() {
+    fieldsAbsent.classList.add('visible');
+    fieldsPresent.classList.remove('visible');
+  });
+
+  document.getElementById('btnSubmitPresent').addEventListener('click', function() {
+    var prenom = document.getElementById('prenom').value.trim();
+    var nom = document.getElementById('nom').value.trim();
+    var entreprise = document.getElementById('entreprise').value.trim();
+    var nombre = document.getElementById('nombre').value;
+
+    if (!prenom || !nom) {
+      alert('Veuillez remplir votre prenom et votre nom.');
+      return;
+    }
+
+    sendData({
+      presence: 'present',
+      prenom: prenom,
+      nom: nom,
+      entreprise: entreprise,
+      nombre_personnes: nombre
+    }, 'success');
+  });
+
+  document.getElementById('btnSubmitAbsent').addEventListener('click', function() {
+    var prenom = document.getElementById('prenomAbs').value.trim();
+    var nom = document.getElementById('nomAbs').value.trim();
+    var entreprise = document.getElementById('entrepriseAbs').value.trim();
+
+    if (!prenom || !nom) {
+      alert('Veuillez remplir votre prenom et votre nom.');
+      return;
+    }
+
+    sendData({
+      presence: 'absent',
+      prenom: prenom,
+      nom: nom,
+      entreprise: entreprise,
+      nombre_personnes: 0
+    }, 'decline');
+  });
+
+  function sendData(data, type) {
+    var btn = document.querySelector('.form-fields.visible .submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function() {
+      formContainer.style.display = 'none';
+      if (type === 'success') {
+        msgSuccess.style.display = 'block';
+      } else {
+        msgDecline.style.display = 'block';
+      }
+    })
+    .catch(function() {
+      alert('Une erreur est survenue. Veuillez reessayer.');
+      btn.disabled = false;
+      btn.textContent = 'Envoyer';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
