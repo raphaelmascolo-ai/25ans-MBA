@@ -272,10 +272,11 @@
     padding: 20px 0;
     animation: fadeIn 0.5s ease;
   }
-  .message .msg-icon {
-    font-size: 56px;
-    margin-bottom: 20px;
-    line-height: 1;
+  .message .msg-divider {
+    width: 50px;
+    height: 3px;
+    background: var(--yellow);
+    margin: 20px auto;
   }
   .message h3 {
     font-size: 24px;
@@ -564,15 +565,15 @@
 
   <!-- Success -->
   <div class="message" id="msgSuccess">
-    <div class="msg-icon">&#127881;</div>
     <h3>Merci pour votre confirmation !</h3>
+    <div class="msg-divider"></div>
     <p>Nous avons bien enregistré votre inscription.<br>Nous nous réjouissons de vous accueillir le 30 mai 2026.</p>
   </div>
 
   <!-- Decline -->
   <div class="message" id="msgDecline">
-    <div class="msg-icon">&#128172;</div>
     <h3>Merci pour votre réponse</h3>
+    <div class="msg-divider"></div>
     <p>Nous sommes désolés de ne pas pouvoir vous compter parmi nous.<br>Nous espérons vous revoir très bientôt.</p>
   </div>
 
